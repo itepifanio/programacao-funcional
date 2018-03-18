@@ -2,5 +2,4 @@
 
 Livro estudado: 
 
-Graham Hutton - Programming in Haskell 
-
+Graham Hutton - Programming in Haskell
