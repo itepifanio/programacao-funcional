@@ -1,3 +1,13 @@
+-- Exercise 3
+funcao n = a `div` length xs
+    where
+    a = 10
+    xs = [1,2,3,4,5]
+
+-- Exercise 4
+myLast list = list !! (length list - 1)
+
+-- Exercise 5
 myInit list = take (length list - 1) list
 
 myOtherInit (list:n) = if null n 
