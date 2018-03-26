@@ -37,15 +37,27 @@ instance Eq Nat where
     Succ _ == Zero    = False
     Succ m == Succ n  = m == n
 
+--x `lessThan` y  
+--             | Succ x == y = True 
+--             | otherwise = False
+  
 instance Ord Nat where
 
-    (<=) = undefined
-
+    (<=) x y  
+           | Succ x == y = True 
+           | otherwise = False
+              
     -- Ord does not require defining min and max.
     -- Howevener, you should define them without using (<=).
     -- Both are binary functions: max m n = ..., etc.
-
-    min = undefined
+    
+    
+    min x y 
+           | x      == Zero = Zero
+           | y      == Zero = Zero
+           | Succ x == y    = x
+           | Succ y == x    = y
+             
 
     max = undefined
 

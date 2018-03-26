@@ -35,9 +35,23 @@ instance Num Rat where
         where n = a * (-1)
               m = b
     
-    abs = undefined
-    signum = undefined
-    fromInteger = undefined
+    abs (Rat a b)
+                 | n < 0 = (Rat (n*(-1)) m)
+                 | m < 0 = (Rat n (m*(-1))) 
+                 | otherwise = Rat a b
+                 where 
+                    n = a 
+                    m = b              
+            
+    signum (Rat a b) =
+        if a == 0 then 0
+        else if b > 0 then
+             if a < 0 then (-1)
+             else 1
+        else if a < 0 then 1
+        else (-1)
+        
+    fromInteger i = Rat i 1
 
 instance Ord Rat where
     compare = undefined
@@ -46,7 +60,9 @@ rat :: Integer -> Integer -> Rat
 rat = undefined
 
 (//) :: Rat -> Rat -> Rat
-(//) = undefined
+(//) (Rat a b) (Rat a' b') = Rat n m
+    where n = a * b'
+          m = b * a'
 
 denominator :: Rat -> Integer
 denominator (Rat _ b) = b
