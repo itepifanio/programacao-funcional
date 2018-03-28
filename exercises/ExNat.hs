@@ -82,8 +82,8 @@ odd = not . even
 
 -- addition
 (<+>) :: Nat -> Nat -> Nat
-(<+>) Zero x = x
-(<+>) x Zero = x
+(<+>) Zero x            = x
+(<+>) x Zero            = x
 (<+>) (Succ x) (Succ y) = (<+>) (Succ(Succ x)) y
           
           
@@ -93,15 +93,21 @@ odd = not . even
 -- It behaves like subtraction, except that it returns 0
 -- when subtraction returns a negative number.
 (<->) :: Nat -> Nat -> Nat
-(<->) = undefined
+(<->) Zero x            = Zero
+(<->) x Zero            = x
+(<->) (Succ x) (Succ y) = (<->) x y
 
 -- multiplication
 (<*>) :: Nat -> Nat -> Nat
-(<*>) = undefined
+(<*>) _ Zero     = Zero
+(<*>) Zero _     = Zero
+(<*>) (Succ x) y = (<+>) y ((<*>) x y)
 
 -- exponentiation
 (<^>) :: Nat -> Nat -> Nat
-(<^>) = undefined
+(<^>) _ Zero    = (Succ Zero)
+(<^>) Zero _    = (Succ Zero)
+(<^>) x (Succ y) = (<*>) x ((<^>) x y)
 
 -- quotient
 (</>) :: Nat -> Nat -> Nat
