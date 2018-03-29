@@ -105,13 +105,15 @@ odd = not . even
 
 -- exponentiation
 (<^>) :: Nat -> Nat -> Nat
-(<^>) _ Zero    = (Succ Zero)
-(<^>) Zero _    = (Succ Zero)
+(<^>) _ Zero     = (Succ Zero)
+(<^>) Zero _     = (Succ Zero)
 (<^>) x (Succ y) = (<*>) x ((<^>) x y)
 
 -- quotient
 (</>) :: Nat -> Nat -> Nat
-(</>) = undefined
+(</>) x (Succ Zero) = x
+(</>) _ Zero        = error "Divisão por zero não permitida"
+(</>) (Succ x) y = (<*>) y ((</>) x y)
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
@@ -127,35 +129,40 @@ divides = (<|>)
 -- x `absDiff` y = |x - y|
 -- (Careful: here this - is the real minus operator!)
 absDiff :: Nat -> Nat -> Nat
-absDiff = undefined
+absDiff x y = if x <= y 
+              then y - x 
+              else x - y
+            
 
 (|-|) = absDiff
 
 factorial :: Nat -> Nat
-factorial = undefined
+fractorial Zero     = (Succ Zero)
+factorial (Succ x) = (<*>) (Succ x) (factorial x)
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
 sg = undefined
+-- | x == Zero = Zero
+-- |(<=) x Zero = -1
+-- | otherwise =  1
 
 -- lo b a is the floor of the logarithm base b of a
 lo :: Nat -> Nat -> Nat
 lo = undefined
 
-
---
 -- For the following functions we need Num(..).
 -- Do NOT use the following functions in the definitions above!
---
 
 toNat :: Integral a => a -> Nat
-toNat = undefined
+toNat 0 = Zero
+toNat x = Succ (toNat (x - 1))
 
 fromNat :: Integral a => Nat -> a
-fromNat = undefined
+fromNat Zero = 0
+fromNat a    = 1 + fromNat(pred(a))
 
-
--- Obs: we can now easily make Nat an instance of Num.
+--we can now easily make Nat an instance of Num.
 instance Num Nat where
 
     (+) = (<+>)
