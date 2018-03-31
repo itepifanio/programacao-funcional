@@ -113,7 +113,7 @@ odd = not . even
 (</>) :: Nat -> Nat -> Nat
 (</>) x (Succ Zero) = x
 (</>) _ Zero        = error "Divisão por zero não permitida"
-(</>) (Succ x) y = (<*>) y ((</>) x y)
+(</>) (Succ x) (Succ y) = ((</>) x y)
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
@@ -142,10 +142,10 @@ factorial (Succ x) = (<*>) (Succ x) (factorial x)
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
-sg = undefined
--- | x == Zero = Zero
--- |(<=) x Zero = -1
--- | otherwise =  1
+sg x
+    | x == Zero = Zero
+    |(<=) x Zero = pred Zero
+    | otherwise =  Succ Zero
 
 -- lo b a is the floor of the logarithm base b of a
 lo :: Nat -> Nat -> Nat
@@ -171,7 +171,7 @@ instance Num Nat where
     abs n = n
     signum = sg
     fromInteger x
-        | x < 0     = undefined
-        | x == 0    = undefined
-        | otherwise = undefined
+        | x < 0     = Zero
+        | x == 0    = Zero
+        | otherwise = toNat x
 
