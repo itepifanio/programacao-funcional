@@ -45,6 +45,8 @@ reverse (x:xs) = reverse xs ++ [x]
 []     ++ ys = ys
 (x:xs) ++ ys = x : (xs ++ ys)
 
+infixl 5 ++
+
 -- (snoc is cons written backwards)
 snoc :: a -> [a] -> [a]
 snoc w []     = [w]
@@ -146,16 +148,20 @@ elem n (x:xs) = if n == x
                 then True 
                 else elem n xs
 
--- Esta pegando os index 
--- acima de 1 de forma errada
 (!!) :: [a] -> Int -> a
-(!!) (x:xs) 0 = x
-(!!) (x:xs) n = if length (x:xs) == n
-                then x
-                else (!!) xs n
+(!!) (x:_) 0 = x
+(!!) (_:xs) n = (!!) xs (n-1)
 
--- filter
--- map
+filter :: (a -> Bool) -> [a] -> [a]
+filter _ [] = []
+filter b (x:xs) | b x = x : filter b xs
+                | otherwise = filter b xs
+                  
+
+map :: (a -> b) -> [a] -> [b]
+map f [] = []
+map f (x:xs) = f x : map f xs
+
 -- cycle
 -- repeat
 -- replicate
@@ -170,7 +176,13 @@ elem n (x:xs) = if n == x
 -- intercalate
 -- nub
 
--- splitAt
+splitAt :: Integer -> [a] -> ([a],[a])
+splitAt 0 xs = ([], xs)
+splitAt n [] = ([],[])
+splitAt n (x:xs) = (x: ys , zs)
+    where
+        (ys, zs) = splitAt (n-1) xs
+
 -- break
 
 -- lines
