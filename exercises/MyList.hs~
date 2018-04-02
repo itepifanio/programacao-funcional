@@ -146,8 +146,6 @@ elem n (x:xs) = if n == x
                 then True 
                 else elem n xs
 
--- Esta pegando os index 
--- acima de 1 de forma errada
 (!!) :: [a] -> Int -> a
 (!!) (x:xs) 0 = x
 (!!) (x:xs) n = if length (x:xs) == n
