@@ -159,15 +159,34 @@ filter b (x:xs) | b x = x : filter b xs
                   
 
 map :: (a -> b) -> [a] -> [b]
-map f [] = []
+map f []     = []
 map f (x:xs) = f x : map f xs
 
--- cycle
--- repeat
--- replicate
+cycle :: [a] -> [a]
+cycle []     = []
+cycle (x:xs) = (x:xs) ++  cycle (x:xs)
 
--- isPrefixOf
--- isInfixOf
+repeat :: a -> [a]
+repeat n = n : repeat n
+
+replicate :: Int -> a -> [a]
+replicate x n = take x (repeat n)
+
+isPrefixOf :: Eq a => [a] -> [a] -> Bool
+isPrefixOf _ []          = False
+isPrefixOf [] _          = True
+isPrefixOf (x:xs) (y:ys) = if x == y
+                           then isPrefixOf xs ys
+                           else False
+
+isInfixOf :: Eq a => [a] -> [a] -> Bool
+isInfixOf _ [] = True
+isInfixOf [] _ = False
+isInfixOf (x:xs) (y:ys)
+    | x == y = isInfixOf xs ys
+    | otherwise = isInfixOf xs ys
+
+
 -- isSuffixOf
 
 -- zip
