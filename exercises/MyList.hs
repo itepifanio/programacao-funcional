@@ -45,6 +45,8 @@ reverse (x:xs) = reverse xs ++ [x]
 []     ++ ys = ys
 (x:xs) ++ ys = x : (xs ++ ys)
 
+infixl 5 ++
+
 -- (snoc is cons written backwards)
 snoc :: a -> [a] -> [a]
 snoc w []     = [w]
@@ -146,22 +148,45 @@ elem n (x:xs) = if n == x
                 then True 
                 else elem n xs
 
--- Esta pegando os index 
--- acima de 1 de forma errada
 (!!) :: [a] -> Int -> a
-(!!) (x:xs) 0 = x
-(!!) (x:xs) n = if length (x:xs) == n
-                then x
-                else (!!) xs n
+(!!) (x:_) 0 = x
+(!!) (_:xs) n = (!!) xs (n-1)
 
--- filter
--- map
--- cycle
--- repeat
--- replicate
+filter :: (a -> Bool) -> [a] -> [a]
+filter _ [] = []
+filter b (x:xs) | b x = x : filter b xs
+                | otherwise = filter b xs
+                  
 
--- isPrefixOf
--- isInfixOf
+map :: (a -> b) -> [a] -> [b]
+map f []     = []
+map f (x:xs) = f x : map f xs
+
+cycle :: [a] -> [a]
+cycle []     = []
+cycle (x:xs) = (x:xs) ++  cycle (x:xs)
+
+repeat :: a -> [a]
+repeat n = n : repeat n
+
+replicate :: Int -> a -> [a]
+replicate x n = take x (repeat n)
+
+isPrefixOf :: Eq a => [a] -> [a] -> Bool
+isPrefixOf _ []          = False
+isPrefixOf [] _          = True
+isPrefixOf (x:xs) (y:ys) = if x == y
+                           then isPrefixOf xs ys
+                           else False
+
+isInfixOf :: Eq a => [a] -> [a] -> Bool
+isInfixOf _ [] = True
+isInfixOf [] _ = False
+isInfixOf (x:xs) (y:ys)
+    | x == y = isInfixOf xs ys
+    | otherwise = isInfixOf xs ys
+
+
 -- isSuffixOf
 
 -- zip
@@ -170,7 +195,13 @@ elem n (x:xs) = if n == x
 -- intercalate
 -- nub
 
--- splitAt
+splitAt :: Integer -> [a] -> ([a],[a])
+splitAt 0 xs = ([], xs)
+splitAt n [] = ([],[])
+splitAt n (x:xs) = (x: ys , zs)
+    where
+        (ys, zs) = splitAt (n-1) xs
+
 -- break
 
 -- lines
