@@ -179,20 +179,32 @@ isPrefixOf (x:xs) (y:ys) = if x == y
                            then isPrefixOf xs ys
                            else False
 
-isInfixOf :: Eq a => [a] -> [a] -> Bool
-isInfixOf _ [] = True
-isInfixOf [] _ = False
-isInfixOf (x:xs) (y:ys)
-    | x == y = isInfixOf xs ys
-    | otherwise = isInfixOf xs ys
+--isInfixOf :: Eq a => [a] -> [a] -> Bool
+--isInfixOf _ [] = True
+--isInfixOf [] _ = False
+--isInfixOf (x:xs) (y:ys)
+--    | x == y = isInfixOf xs ys
+--    | otherwise = isInfixOf xs ys
 
 
 -- isSuffixOf
 
--- zip
--- zipWith
+zip :: [a] -> [b] -> [(a, b)]
+zip [] _ = []
+zip _ [] = []
+zip (x:xs) (y:ys) = (x, y) : zip xs ys
 
--- intercalate
+
+zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
+zipWith _ _ _           = []
+
+intercalate :: [a] -> [[a]] -> [a]
+intercalate [] _ = []
+intercalate x [[]] = x
+intercalate (x:xs) (y:ys:yss) = undefined
+
+
 -- nub
 
 splitAt :: Integer -> [a] -> ([a],[a])
