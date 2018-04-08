@@ -201,11 +201,14 @@ zipWith _ _ _           = []
 
 intercalate :: [a] -> [[a]] -> [a]
 intercalate [] _ = []
-intercalate x [[]] = x
-intercalate (x:xs) (y:ys:yss) = undefined
+intercalate x [y] = y
+intercalate x (y:ys) = y ++ x ++ (intercalate x ys)
 
-
--- nub
+nub :: Eq a => [a] -> [a]
+nub [] = []
+nub (x:xs) = if x `elem` xs
+             then nub xs
+             else x : nub xs 
 
 splitAt :: Integer -> [a] -> ([a],[a])
 splitAt 0 xs = ([], xs)
@@ -214,9 +217,16 @@ splitAt n (x:xs) = (x: ys , zs)
     where
         (ys, zs) = splitAt (n-1) xs
 
--- break
+break :: (a -> Bool) -> [a] -> ([a], [a])
+break _ all@[] = (all,all)
+break b all@(x:xs)
+    | not (b x) = ([], all)
+    | otherwise = let (ys, zs) = break b xs 
+                  in (x:ys,zs)
 
--- lines
+lines :: String -> [String]
+lines = undefined
+
 -- words
 -- unlines
 -- unwords
