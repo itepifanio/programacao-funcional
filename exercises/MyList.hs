@@ -1,4 +1,4 @@
-module ExList where
+module MyList where
 
 import Prelude
     ( Char , String , Int , Integer , Double , Float , Bool(..)
@@ -157,7 +157,6 @@ filter _ [] = []
 filter b (x:xs) | b x = x : filter b xs
                 | otherwise = filter b xs
                   
-
 map :: (a -> b) -> [a] -> [b]
 map f []     = []
 map f (x:xs) = f x : map f xs
@@ -190,18 +189,17 @@ isPrefixOf (x:xs) (y:ys) = if x == y
 -- isSuffixOf
 
 zip :: [a] -> [b] -> [(a, b)]
-zip [] _ = []
-zip _ [] = []
+zip [] _          = []
+zip _ []          = []
 zip (x:xs) (y:ys) = (x, y) : zip xs ys
-
 
 zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
 zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
 zipWith _ _ _           = []
 
 intercalate :: [a] -> [[a]] -> [a]
-intercalate [] _ = []
-intercalate x [y] = y
+intercalate [] _     = []
+intercalate x [y]    = y
 intercalate x (y:ys) = y ++ x ++ (intercalate x ys)
 
 nub :: Eq a => [a] -> [a]
