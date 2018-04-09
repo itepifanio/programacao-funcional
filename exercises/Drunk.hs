@@ -59,7 +59,19 @@ stretch = undefined
 --         , , ,,,,,
 --   "GustaGvuostavo"
 --    ''''' ' '
+
+alternate :: [a] -> [a] -> [a]
+alternate _ []          = []
+alternate [] _          = []
+alternate (x:xs) (y:ys) = x : y : (alternate xs ys)
+
 drunk :: Integral i => i -> [a] -> [a]
-drunk = undefined
+drunk i xs = begin ++ middle ++ end
+    where 
+        begin  = take i xs
+        end    = drop (length xs - i) xs
+        middle = alternate xs (drop i xs)
+
+-- drunk' (x:xs) (y:ys) = y:x:(drunk' xs ys)
 
 

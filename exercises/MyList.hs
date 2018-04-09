@@ -222,8 +222,11 @@ break b all@(x:xs)
     | otherwise = let (ys, zs) = break b xs 
                   in (x:ys,zs)
 
+-- Lines still undefined
 lines :: String -> [String]
-lines = undefined
+lines "" = []
+lines (x:xs) = undefined
+
 
 -- words
 -- unlines
