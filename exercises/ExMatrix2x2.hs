@@ -20,7 +20,7 @@ type Number = Double
 type Row = [Number]
 type Col = [Number]
 
-data Matrix2x2 = Undefined
+data Matrix2x2 = Matrix2x2 ((Number, Number), (Number, Number))
 
 instance Show Matrix2x2 where
     show = undefined
