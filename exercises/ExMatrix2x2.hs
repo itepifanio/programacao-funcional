@@ -11,11 +11,15 @@ module ExMatrix2x2
     , isTriangular
     , isLowerTriangular
     , isUpperTriangular
+    -- Inconsistência sem o is
+    -- Haskell não utiliza o padrao is
     , singular
     , invertible
     , inverse
     ) where
 
+-- Pode-se criar coisas mais gerais
+-- tipo numero ser Num a => a
 type Number = Double
 type Row = [Number]
 type Col = [Number]

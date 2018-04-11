@@ -194,8 +194,9 @@ zip _ []          = []
 zip (x:xs) (y:ys) = (x, y) : zip xs ys
 
 zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith f []     _      = []
+zipWith f _      []     = []
 zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
-zipWith _ _ _           = []
 
 intercalate :: [a] -> [[a]] -> [a]
 intercalate [] _     = []
@@ -250,4 +251,9 @@ Examples of palindromes:
 
 -}
 
+subsequences (x:xs) = (map (x:) (subsequences xs)) ++ xs
+
+inits' :: [a] -> [[a]]
+inits' [] = [[]]
+inits' (x:xs) = map (x:) (tails xs)
 
