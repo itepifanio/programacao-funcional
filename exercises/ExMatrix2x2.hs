@@ -41,6 +41,10 @@ instance Show Matrix2x2 where
 instance Eq Matrix2x2 where
     (==) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = a == a' && b == b' && c == c' && d == d'
 
+-- Multiplicacao por constante
+multByConst :: Number -> Matrix2x2 -> Matrix2x2
+multByConst n (Matrix2x2 ((a,b), (c, d))) = (Matrix2x2 ((a*n, b*n),(c*n, d*n)))
+
 -- Define multiplicacao de uma linha por uma coluna
 --(***) :: Row -> Col -> Number
 --(***) (Row [a,b]) (Col [c,d]) = a * c + b * d
@@ -49,7 +53,9 @@ instance Num Matrix2x2 where
     (+) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = (Matrix2x2  ((a+a', b+b'), (c+c', d+d')))
     (*) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = (Matrix2x2 ((a*a' + b*c',a*b' + b*d'), (c*a' + d*c', c*b' + d*d')))
 
-    negate = undefined
+    --negate :: Matrix2x2 -> Matrix2x2
+    negate m = multByConst (-1) m
+
     abs = undefined
     signum = undefined
     fromInteger = undefined
