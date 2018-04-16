@@ -24,10 +24,16 @@ type Number = Double
 type Row = [Number]
 type Col = [Number]
 
+--data Matrix2x2 = Matrix2x2 Number Number Number Number
+
+--instance Show Matrix2x2 where
+--    show (Matrix2x2 a b c d) = "[" ++ "[" ++ (show a) ++ "," ++ (show b) ++ "]" ++ "[" ++ (show c) ++ "," ++ (show d) ++ "]" ++ "]"
+   
 data Matrix2x2 = Matrix2x2 ((Number, Number), (Number, Number))
 
 instance Show Matrix2x2 where
-    show = undefined
+    show (Matrix2x2 ((a,b),(c,d))) = "[" ++ "[" ++ (show a) ++ "," ++ (show b) ++ "]" ++ "[" ++ (show c) ++ "," ++ (show d) ++ "]" ++ "]"
+
 
 instance Eq Matrix2x2 where
     (==)  = undefined
