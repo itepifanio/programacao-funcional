@@ -31,16 +31,24 @@ type Col = [Number]
    
 data Matrix2x2 = Matrix2x2 ((Number, Number), (Number, Number))
 
+-- Trabalhando com matriz no formato
+-- [[ a , b ],
+--  [ c , d ]]
 instance Show Matrix2x2 where
     show (Matrix2x2 ((a,b),(c,d))) = "[" ++ "[" ++ (show a) ++ "," ++ (show b) ++ "]" ++ "[" ++ (show c) ++ "," ++ (show d) ++ "]" ++ "]"
 
 
 instance Eq Matrix2x2 where
-    (==)  = undefined
+    (==) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = a == a' && b == b' && c == c' && d == d'
+
+-- Define multiplicacao de uma linha por uma coluna
+--(***) :: Row -> Col -> Number
+--(***) (Row [a,b]) (Col [c,d]) = a * c + b * d
 
 instance Num Matrix2x2 where
-    (+) = undefined
-    (*) = undefined
+    (+) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = (Matrix2x2  ((a+a', b+b'), (c+c', d+d')))
+    (*) (Matrix2x2 ((a,b),(c,d))) (Matrix2x2 ((a',b'),(c',d'))) = (Matrix2x2 ((a*a' + b*c',a*b' + b*d'), (c*a' + d*c', c*b' + d*d')))
+
     negate = undefined
     abs = undefined
     signum = undefined
