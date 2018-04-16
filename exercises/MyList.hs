@@ -108,8 +108,8 @@ init [x]    = []
 init (x:xs) = x : init xs
 
 inits :: [a] -> [[a]]
-inits []   = []
-inits xs   = init xs : inits (init xs)
+inits []   = [[]]
+inits xs   = inits (init xs) ++ [xs]
 
 any :: (a -> Bool) -> [a] -> Bool
 any b []     = False
@@ -178,15 +178,11 @@ isPrefixOf (x:xs) (y:ys) = if x == y
                            then isPrefixOf xs ys
                            else False
 
---isInfixOf :: Eq a => [a] -> [a] -> Bool
---isInfixOf _ [] = True
---isInfixOf [] _ = False
---isInfixOf (x:xs) (y:ys)
---    | x == y = isInfixOf xs ys
---    | otherwise = isInfixOf xs ys
+isInfixOf :: Eq a => [a] -> [a] -> Bool
+isInfixOf a b = isPrefixOf (reverse a) (reverse b)
 
-
--- isSuffixOf
+isSuffixOf :: Eq a => [a] -> [a] -> Bool
+isSuffixOf a b = isInfixOf a b
 
 zip :: [a] -> [b] -> [(a, b)]
 zip [] _          = []
@@ -223,17 +219,44 @@ break b all@(x:xs)
     | otherwise = let (ys, zs) = break b xs 
                   in (x:ys,zs)
 
+beforeNewLine :: String -> String
+beforeNewLine ""        = ""
+beforeNewLine ('\n':xs) = ""
+beforeNewLine (x:xs)    = x : beforeNewLine xs 
+
+afterNewLine :: String -> String
+afterNewLine ""        = ""
+afterNewLine ('\n':xs) = xs
+afterNewLine (x:xs)    = afterNewLine xs 
+
 -- Lines still undefined
 lines :: String -> [String]
-lines "" = []
-lines (x:xs) = undefined
+lines ""     = []
+lines xs = (beforeNewLine xs) : lines (afterNewLine xs)  
 
 
--- words
--- unlines
--- unwords
+words :: String -> [String]
+words "" = [""]
+words x  = begin x : words (end x)
+    where
+        begin ""        = ""
+        begin (' ':xs)  = ""
+        begin (x:xs)    = x : begin xs
+        end   ""        = ""
+        end   (' ':xs)  = xs
+        end   (x:xs)    = end xs
 
--- transpose
+unlines :: [String] -> String
+unlines [] = []
+unlines (x:xs) = x ++ "\n" ++ unlines xs
+
+unwords :: [String] -> String
+unwords [] = []
+unwords (x:xs) = x ++ " " ++ unwords xs
+
+
+transpose :: [[a]] -> [[a]]
+transpose = undefined
 
 -- checks if the letters of a phrase form a palindrome (see below for examples)
 palindrome :: String -> Bool
@@ -251,7 +274,7 @@ Examples of palindromes:
 
 -}
 
-subsequences (x:xs) = (map (x:) (subsequences xs)) ++ xs
+--subsequences (x:xs) = (map (x:) (subsequences xs)) ++ xs
 
 inits' :: [a] -> [[a]]
 inits' [] = [[]]
