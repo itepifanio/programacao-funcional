@@ -113,7 +113,7 @@ odd = not . even
 (</>) :: Nat -> Nat -> Nat
 (</>) x (Succ Zero) = x
 (</>) _ Zero        = error "Divisão por zero não permitida"
-(</>) (Succ x) (Succ y) = ((</>) x y)
+(</>) (Succ x) (Succ y) = (</>) ((Succ x) - (Succ y)) y
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
