@@ -229,7 +229,6 @@ afterNewLine ""        = ""
 afterNewLine ('\n':xs) = xs
 afterNewLine (x:xs)    = afterNewLine xs 
 
--- Lines still undefined
 lines :: String -> [String]
 lines ""     = []
 lines xs = (beforeNewLine xs) : lines (afterNewLine xs)  
@@ -258,9 +257,14 @@ unwords (x:xs) = x ++ " " ++ unwords xs
 transpose :: [[a]] -> [[a]]
 transpose = undefined
 
+last :: [a] -> a
+last [x]    = x
+last (x:xs) = last xs
+
 -- checks if the letters of a phrase form a palindrome (see below for examples)
 palindrome :: String -> Bool
-palindrome = undefined
+palindrome xs = xs == reverse xs
+ 
 
 {-
 
@@ -273,10 +277,3 @@ Examples of palindromes:
 "Doc, note I dissent.  A fast never prevents a fatness.  I diet on cod."
 
 -}
-
---subsequences (x:xs) = (map (x:) (subsequences xs)) ++ xs
-
-inits' :: [a] -> [[a]]
-inits' [] = [[]]
-inits' (x:xs) = map (x:) (tails xs)
-
