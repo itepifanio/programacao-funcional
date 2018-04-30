@@ -18,3 +18,13 @@ factors n = [x|x<-[1..n], n `mod` x == 0]
 
 perfects :: Int -> [Int]
 perfects n = [n|n <- [1..n], n == sum (init (factors n))]
+
+-- 5)
+comprehension =  concat [[(x, y) | y <- [4, 5, 6]] | x <- [1, 2, 3]]
+
+-- 6) Por fazer
+positions :: Eq a => a -> [a] -> [Int]
+positions x xs = [i | (x', i) <- zip xs [0..n], x == x']
+    where n = length xs - 1
+
+
