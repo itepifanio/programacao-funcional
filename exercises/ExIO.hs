@@ -89,12 +89,12 @@ guard :: Bool -> IO ()
 guard = undefined
 
 forever :: IO a -> IO b
-forever a = do forever a
+forever s = do forever s
 
 -- transforms the action given to an equivalent one that has no result
 void :: IO a -> IO ()
-void = undefined
-
+void a = do 
+            return ()
 
 -- Kleisli compositions
 infixr 1 >=>, <=<
