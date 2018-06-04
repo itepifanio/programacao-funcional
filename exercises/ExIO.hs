@@ -8,6 +8,7 @@ import Prelude hiding
     , (>>)
     , (>>=)
     )
+import Text.Read ( readMaybe )
 
 -- read through the whole module first, to get an idea
 -- of what's required and to decide where to start
@@ -24,7 +25,8 @@ getInt = do str <- getLine
             return (read str::Int)
 
 getSafeInt :: IO (Maybe Int)
-getSafeInt = undefined
+getSafeInt = do str <- getLine
+                return (readMaybe str)
 
 -- sequencing: first do f ignoring its result, then do g and keep its result
 infixl 1 >>
@@ -34,22 +36,31 @@ f >> g = undefined
 
 -- pauses till the user presses any normal key
 pause :: IO ()
-pause = undefined
+pause = do str <- getLine
+           return ()
 
 skip :: IO ()
-skip = undefined
+skip = do
+         return ()
 
 newline :: IO ()
-newline = undefined
+newline = putChar '\n'
 
 -- define it as a foldr
 putStr :: String -> IO ()
-putStr = undefined
+putStr ""     = return ()
+putStr (x:xs) = do putChar x
+                   putStr xs
 
 -- transform f into one "just like f" except that it prints a newline
 -- after any side-effects f may had
+
+
 lnize :: (a -> IO b) -> a -> IO b
-lnize f = undefined
+lnize f = undefined 
+
+--lnizar f x = do f x
+--                newline
 
 putStrLn :: String -> IO ()
 putStrLn = lnize putStr
