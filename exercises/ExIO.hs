@@ -57,7 +57,7 @@ putStr (x:xs) = do putChar x
 
 
 lnize :: (a -> IO b) -> a -> IO b
-lnize f = undefined 
+lnize f = undefined
 
 --lnizar f x = do f x
 --                newline
@@ -70,8 +70,9 @@ putCharLn = lnize putChar
 
 -- reads the entire user input as a single string, transforms it, and prints it
 interact :: (String -> String) -> IO ()
-interact = undefined
-
+interact f = do str <- getLine
+                putStrLn (f str)
+              
 perlineize :: (String -> String) -> (String -> String)
 perlineize f = unlines . map f . lines
 
@@ -79,16 +80,16 @@ interactPerLine :: (String -> String) -> IO ()
 interactPerLine = interact . perlineize
 
 when :: Bool -> IO () -> IO ()
-when = undefined
+when p s = if p then s else return ()
 
 unless :: Bool -> IO () -> IO ()
-unless = undefined
+unless p s = if p then return () else s
 
 guard :: Bool -> IO ()
 guard = undefined
 
 forever :: IO a -> IO b
-forever = undefined
+forever a = do forever a
 
 -- transforms the action given to an equivalent one that has no result
 void :: IO a -> IO ()
@@ -174,5 +175,7 @@ foldlIO = undefined
 foldlIO_ :: (b -> a -> IO b) -> b -> [a] -> IO ()
 foldlIO_ = undefined
 
-
-
+teste = forever $ do
+    putStr "Ever get Deja vu? "
+    line <- getLine
+    putStrLn ("Did you just say: " ++ line ++ "?")
