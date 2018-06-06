@@ -20,6 +20,9 @@ getLine = do x <- getChar
                  do s <- getLine
                     return (x:s)
 
+--getLine' :: IO String
+--getLine' = getChar >> \x -> 
+
 getInt :: IO Int
 getInt = do str <- getLine
             return (read str::Int)
@@ -36,8 +39,7 @@ f >> g = undefined
 
 -- pauses till the user presses any normal key
 pause :: IO ()
-pause = do str <- getLine
-           return ()
+pause = getChar >> skip
 
 skip :: IO ()
 skip = do
@@ -48,17 +50,17 @@ newline = putChar '\n'
 
 -- define it as a foldr
 putStr :: String -> IO ()
-putStr ""     = return ()
+putStr ""     = skip
 putStr (x:xs) = do putChar x
                    putStr xs
 
 -- transform f into one "just like f" except that it prints a newline
 -- after any side-effects f may had
-
-
 lnize :: (a -> IO b) -> a -> IO b
-lnize f = undefined
-
+lnize f x = do s <- f x
+               newline
+               return s
+lnize' f x = f x >>= \s -> (newline >> return s)
 --lnizar f x = do f x
 --                newline
 
@@ -80,10 +82,10 @@ interactPerLine :: (String -> String) -> IO ()
 interactPerLine = interact . perlineize
 
 when :: Bool -> IO () -> IO ()
-when p s = if p then s else return ()
+when p s = if p then s else skip
 
 unless :: Bool -> IO () -> IO ()
-unless p s = if p then return () else s
+unless b = when (not b)
 
 guard :: Bool -> IO ()
 guard = undefined
