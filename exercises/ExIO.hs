@@ -35,7 +35,8 @@ getSafeInt = do str <- getLine
 infixl 1 >>
 
 (>>) :: IO a -> IO b -> IO b
-f >> g = undefined
+ax >> ay = do ax
+              ay
 
 -- pauses till the user presses any normal key
 pause :: IO ()
@@ -116,8 +117,10 @@ f >=> g = undefined
 -- Bind
 infixl 1 >>=
 
+-- bind
 (>>=) :: IO a -> (a -> IO b) -> IO b
-iox >>= f = undefined
+ax >>= f = do x <- ax
+              f x
 
 
 infixl 4 $>, <$
