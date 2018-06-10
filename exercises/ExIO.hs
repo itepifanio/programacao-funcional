@@ -89,22 +89,25 @@ unless :: Bool -> IO () -> IO ()
 unless b = when (not b)
 
 guard :: Bool -> IO ()
-guard = undefined
+guard True  = skip
+guard False = error "Did not pass the guard"
 
 forever :: IO a -> IO b
-forever s = do forever s
+forever s = do s 
+               forever s
 
 -- transforms the action given to an equivalent one that has no result
 void :: IO a -> IO ()
-void a = do 
-            return ()
+void a = do skip
 
 -- Kleisli compositions
 infixr 1 >=>, <=<
 
 -- diagrammatic order
 (>=>) :: (a -> IO b) -> (b -> IO c) -> (a -> IO c)
-f >=> g = undefined
+f >=> g = \x ->
+    do r <- f x
+       g r
 
 -- traditional order
 -- comparison of types:
@@ -137,15 +140,21 @@ x <$ ioy = undefined
 ap :: IO (a -> b) -> IO a -> IO b
 iof `ap` iox = undefined
 
-
 filterIO :: (a -> IO Bool) -> [a] -> IO [a]
-filterIO = undefined
+filterIO f [] = return []
+filterIO f (x:xs)  = do
+    r <- f x
+    if r then filterIO f xs else return []
 
 iomap :: (a -> b) -> IO a -> IO b
 iomap = undefined
 
 mapIO :: (a -> IO b) -> [a] -> IO [b]
-mapIO = undefined
+mapIO f []     = return []
+mapIO f (x:xs) = do
+    v  <- f x
+    vs <- mapIO f xs
+    return (v:vs)
 
 zipWithIO :: (a -> b -> IO c) -> [a] -> [b] -> IO [c]
 zipWithIO = undefined
@@ -179,8 +188,3 @@ foldlIO = undefined
 
 foldlIO_ :: (b -> a -> IO b) -> b -> [a] -> IO ()
 foldlIO_ = undefined
-
-teste = forever $ do
-    putStr "Ever get Deja vu? "
-    line <- getLine
-    putStrLn ("Did you just say: " ++ line ++ "?")
