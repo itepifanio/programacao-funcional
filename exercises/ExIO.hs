@@ -125,20 +125,21 @@ infixl 1 >>=
 ax >>= f = do x <- ax
               f x
 
-
 infixl 4 $>, <$
 
 -- make an action that has the side effects of the action on the left
 -- but with result the value on the right
 ($>) :: IO a -> b -> IO b
 iox $> y = undefined
-
+                 
 -- vice-versa
 (<$) :: a -> IO b -> IO a
 x <$ ioy = undefined
 
 ap :: IO (a -> b) -> IO a -> IO b
-iof `ap` iox = undefined
+iof `ap` iox = do x  <- iof
+                  x' <- iox
+                  return (x x')
 
 filterIO :: (a -> IO Bool) -> [a] -> IO [a]
 filterIO f [] = return []
@@ -147,7 +148,8 @@ filterIO f (x:xs)  = do
     if r then filterIO f xs else return []
 
 iomap :: (a -> b) -> IO a -> IO b
-iomap = undefined
+iomap f x = do r <- x
+               return (f r)
 
 mapIO :: (a -> IO b) -> [a] -> IO [b]
 mapIO f []     = return []
@@ -157,10 +159,20 @@ mapIO f (x:xs) = do
     return (v:vs)
 
 zipWithIO :: (a -> b -> IO c) -> [a] -> [b] -> IO [c]
-zipWithIO = undefined
+zipWithIO f [] _          = return []
+zipWithIO f _ []          = return []
+zipWithIO f (x:xs) (y:ys) = 
+    do r  <- f x y 
+       rs <- zipWithIO f xs ys       
+       return (r:rs)
 
 zipWithIO_ :: (a -> b -> IO c) -> [a] -> [b] -> IO ()
-zipWithIO_ = undefined
+zipWithIO_ f a b = 
+    do result <- zipWithIO f a b
+       return ()
+    {- do r <- f x y
+       rs <- zipWithIO_ f xs ys
+       print (r:rs)  -}
 
 sequenceIO :: [IO a] -> IO [a]
 sequenceIO = undefined
