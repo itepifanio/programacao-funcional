@@ -8,7 +8,8 @@ data Either a b = Left a | Right b
     deriving (Show, Eq)
 
 either :: (a -> c) -> (b -> c) -> Either a b -> c
-either = undefined
+either f _ (Left y)  = f y
+either _ g (Right x) = g x
 
 fromLeft :: a -> Either a b -> a
 fromLeft = undefined
