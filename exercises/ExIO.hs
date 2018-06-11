@@ -42,6 +42,8 @@ ax >> ay = do ax
 pause :: IO ()
 pause = getChar >> skip
 
+-- pause = void $ echoless getChar
+
 skip :: IO ()
 skip = do
          return ()
@@ -178,7 +180,7 @@ sequenceIO (x:xs) = do r  <- x
                        return (r : rs)
 
 sequenceIO_ :: [IO a] -> IO ()
-sequenceIO_ = undefined
+sequenceIO_ = void . sequenceIO
 
 replicateIO :: Integral i => i -> IO a -> IO [a]
 replicateIO 0 _    = return []
