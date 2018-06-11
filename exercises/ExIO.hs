@@ -191,7 +191,11 @@ replicateIO_ :: Integral i => i -> IO a -> IO [a]
 replicateIO_ = undefined
 
 forIO :: [a] -> (a -> IO b) -> IO [b]
-forIO = undefined
+forIO [] _     = return []
+forIO (x:xs) f = do
+    r  <- f x
+    rs <- forIO xs f
+    return (r:rs)
 
 forIO_ :: [a] -> (a -> IO b) -> IO ()
 forIO_ = undefined
