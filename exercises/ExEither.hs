@@ -12,16 +12,19 @@ either f _ (Left y)  = f y
 either _ g (Right x) = g x
 
 fromLeft :: a -> Either a b -> a
-fromLeft = undefined
+fromLeft _ (Left y) = y
+fromLeft x _        = x
 
 fromRight :: b -> Either a b -> b
-fromRight = undefined
+fromRight _ (Right y) = y
+fromRight x _         = x
 
 isLeft :: Either a b -> Bool
-isLeft = undefined
+isLeft (Left y) = True
+isLeft _        = False
 
 isRight :: Either a b -> Bool
-isRight = undefined
+isRight x = not $ isLeft x
 
 lefts :: [Either a b] -> [a]
 lefts = undefined
