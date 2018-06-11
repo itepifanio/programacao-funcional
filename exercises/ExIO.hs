@@ -170,19 +170,23 @@ zipWithIO_ :: (a -> b -> IO c) -> [a] -> [b] -> IO ()
 zipWithIO_ f a b = 
     do result <- zipWithIO f a b
        return ()
-    {- do r <- f x y
-       rs <- zipWithIO_ f xs ys
-       print (r:rs)  -}
 
 sequenceIO :: [IO a] -> IO [a]
-sequenceIO = undefined
+sequenceIO []     = return []
+sequenceIO (x:xs) = do r  <- x
+                       rs <- sequenceIO xs
+                       return (r : rs)
 
 sequenceIO_ :: [IO a] -> IO ()
 sequenceIO_ = undefined
 
 replicateIO :: Integral i => i -> IO a -> IO [a]
-replicateIO = undefined
-
+replicateIO 0 _    = return []
+replicateIO n s = 
+    do r  <- s
+       rs <- replicateIO (n-1) s
+       return (r:rs)
+       
 replicateIO_ :: Integral i => i -> IO a -> IO [a]
 replicateIO_ = undefined
 
@@ -193,10 +197,17 @@ forIO_ :: [a] -> (a -> IO b) -> IO ()
 forIO_ = undefined
 
 joinIO :: IO (IO a) -> IO a
-joinIO = undefined
+joinIO s = 
+    do r <- s
+       r
+--joinIO x = x >>= id
+
 
 foldlIO :: (b -> a -> IO b) -> b -> [a] -> IO b
-foldlIO = undefined
+foldlIO f z []     = return z
+foldlIO f z (x:xs) = 
+    do r <- f z x
+       foldlIO f r xs
 
 foldlIO_ :: (b -> a -> IO b) -> b -> [a] -> IO ()
 foldlIO_ = undefined
