@@ -8,30 +8,42 @@ data Maybe a = Nothing | Just a
     deriving (Show, Eq, Ord)
 
 catMaybes :: [Maybe a] -> [a]
-catMaybes = undefined
+catMaybes xs = [x | Just x <- xs]
 
 fromJust :: Maybe a -> a
-fromJust = undefined
+fromJust (Just x) = x
+fromJust Nothing  = error "Nothing can't be resolved"
 
 fromMaybe :: a -> Maybe a -> a
-fromMaybe = undefined
+fromMaybe x y = case y of
+    Nothing -> x
+    Just v  -> v
 
 isJust :: Maybe a -> Bool
-isJust = undefined
+isJust Nothing = False
+isJust _       = True
 
 isNothing :: Maybe a -> Bool
-isNothing = undefined
+isNothing x = not $ isJust x
 
 listToMaybe :: [a] -> Maybe a
-listToMaybe = undefined
+listToMaybe []     = Nothing
+listToMaybe (x:xs) = Just x
 
 mapMaybe :: (a -> Maybe b) -> [a] -> [b]
-mapMaybe = undefined
+mapMaybe f []     = []
+mapMaybe f (x:xs) = 
+    let rs = mapMaybe f xs in
+    case f x of
+         Nothing -> rs
+         Just r  -> r:rs
 
 maybe :: b -> (a -> b) -> Maybe a -> b
-maybe = undefined
+maybe x _ Nothing = x
+maybe x f y       = f (fromJust y)
 
 maybeToList :: Maybe a -> [a]
-maybeToList = undefined
+maybeToList Nothing   = []
+maybeToList (Just x)  = [x]
 
 
