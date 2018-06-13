@@ -193,6 +193,10 @@ iomap f ax = ax >>= (return . f)
 mapIO :: (a -> IO b) -> [a] -> IO [b]
 mapIO f = sequenceIO . map f
 
+mapIO_ :: (a -> IO b) -> [a] -> IO ()
+mapIO_ f = sequenceIO_ . map f
+-- mapIO_ f = void . mapIO
+
 -- primitive solution
 -- mapIO f []     = return []
 -- mapIO f (x:xs) = do
@@ -211,17 +215,21 @@ zipWithIO_ = undefined
 replicateIO :: Integral i => i -> IO a -> IO [a]
 replicateIO = undefined
 
-replicateIO_ :: Integral i => i -> IO a -> IO [a]
+replicateIO_ :: Integral i => i -> IO a -> IO ()
 replicateIO_ = undefined
 
 forIO :: [a] -> (a -> IO b) -> IO [b]
-forIO = undefined
+forIO = flip mapIO
 
+{-
 forIO_ :: [a] -> (a -> IO b) -> IO ()
-forIO_ = undefined
+forIO_ = void forIO
+-}
 
 joinIO :: IO (IO a) -> IO a
-joinIO = undefined
+joinIO aax = do
+    ax <- aax
+    ax
 
 foldlIO :: (b -> a -> IO b) -> b -> [a] -> IO b
 foldlIO = undefined
