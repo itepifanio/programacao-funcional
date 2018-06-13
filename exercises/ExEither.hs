@@ -27,11 +27,15 @@ isRight :: Either a b -> Bool
 isRight x = not $ isLeft x
 
 lefts :: [Either a b] -> [a]
-lefts = undefined
+lefts xs = [x | Left x <- xs]
+
 
 partitionEithers :: [Either a b] -> ([a], [b])
-partitionEithers = undefined
+partitionEithers [] = ([], [])
+partitionEithers xs = (left, right)
+    where right = rights xs
+          left  = lefts  xs
 
 rights :: [Either a b] -> [b]
-rights = undefined
+rights xs = [x | Right x <- xs ]
 
