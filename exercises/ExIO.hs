@@ -132,11 +132,11 @@ infixl 4 $>, <$
 -- make an action that has the side effects of the action on the left
 -- but with result the value on the right
 ($>) :: IO a -> b -> IO b
-iox $> y = undefined
+iox $> y = iox >> return y
                  
 -- vice-versa
 (<$) :: a -> IO b -> IO a
-x <$ ioy = undefined
+(<$) = flip ($>)
 
 ap :: IO (a -> b) -> IO a -> IO b
 iof `ap` iox = do x  <- iof
@@ -199,8 +199,14 @@ forIO (x:xs) f = do
     rs <- forIO xs f
     return (r:rs)
 
+-- flip mapIO
+
 forIO_ :: [a] -> (a -> IO b) -> IO ()
-forIO_ = undefined
+forIO_ [] _     = skip
+forIO_ (x:xs) f = do
+    r  <- f x
+    rs <- forIO_ xs f
+    skip
 
 joinIO :: IO (IO a) -> IO a
 joinIO s = 
@@ -216,4 +222,8 @@ foldlIO f z (x:xs) =
        foldlIO f r xs
 
 foldlIO_ :: (b -> a -> IO b) -> b -> [a] -> IO ()
-foldlIO_ = undefined
+foldlIO_ f z []    = skip
+foldlIO_ f z (x:xs) = 
+    do r <- f z x
+       foldlIO_ f r xs
+       skip
