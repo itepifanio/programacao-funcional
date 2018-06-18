@@ -5,6 +5,13 @@ import Data.List (intersperse)
 import Data.Maybe (isJust)
 import System.Exit (exitSuccess)
 import Control.Monad (forever)
+import System.IO
+    ( hSetEcho
+    , hGetEcho
+    , stdin
+    , stdout
+    )
+
 
 data Hangman = Hangman {
     palavra  :: String,
@@ -32,6 +39,14 @@ tentativa h c =
             tentativas = c : tentativas h,
             palavra' = xablau (palavra h) c [] (palavra' h)         
         }
+
+echoless :: IO a -> IO a
+echoless ax =
+    do oldEcho <- hGetEcho stdin
+       hSetEcho stdin False
+       x <- ax
+       hSetEcho stdin oldEcho
+       return x
 
 handleTry :: Hangman -> Char -> IO Hangman
 handleTry hangman c = do
@@ -63,7 +78,7 @@ endGame :: Hangman -> IO ()
 endGame hangman =
   if all isJust (palavra' hangman) then
     do
-      putStrLn $ "\nFim, parabéns"
+      putStrLn $ "\nVocê acertou a palavra era " ++ map toUpper (palavra hangman) ++ ", parabéns"
       exitSuccess
   else
     return ()
@@ -75,20 +90,21 @@ gameLost hangman =
       putStrLn $ "\nPerdeu"
       exitSuccess
   else
-    return ()
-{- 
-printHagman (tentativa (hangman "batata") 'a')
--}        
+    return () 
 
 runGame :: Hangman -> IO ()
 runGame hangman = forever $ do
     endGame hangman
     gameLost hangman
-    putStr "Tente uma letra: "
-    c <- getChar
+    putStr "\n"
+    putStr "Tente uma letra: \n"
+    c <- echoless getChar
     handleTry hangman c >>= runGame
-    return ()
-    return ()
+    handleTry hangman c
+
+main :: IO ()
+main = do
+    runGame (hangman "batata")
     
 
 
