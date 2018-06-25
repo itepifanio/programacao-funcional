@@ -48,6 +48,9 @@ echoless ax =
        hSetEcho stdin oldEcho
        return x
 
+-- Por conta da tipagem, trabalha com o hangman
+-- retornando IO Hangman, pensar em melhor solução
+-- na hora de imprimir hangman durante o loop
 handleTry :: Hangman -> Char -> IO Hangman
 handleTry hangman c = do
     printHagman (palavra' hangman)
@@ -59,7 +62,6 @@ handleTry hangman c = do
 -- palavra -> c -> [] -> palavra'
 -- No ghci: xablau "abc" 'b' [] [Nothing, Nothing, Nothing]      
 --          xablau "abc" 'c' [] it
-
 xablau :: String -> Char -> [Maybe Char] -> [Maybe Char] -> [Maybe Char]
 xablau [] c ms [] = ms
 xablau (x:xs) c ms (p:ps')
@@ -94,6 +96,8 @@ gameLost hangman =
 
 runGame :: Hangman -> IO ()
 runGame hangman = forever $ do
+    -- forever tem que receber um IO () IO(), então
+    -- criei essas duas funções
     endGame hangman
     gameLost hangman
     putStr "\n"
