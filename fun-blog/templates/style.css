@@ -1,0 +1,351 @@
+body { 
+    background-color:#eee;
+    color:#000;
+    margin-top:1ex;
+    margin-bottom:1ex;
+    padding-top:0px;
+    padding-bottom:0px;
+    font-family:serif;
+}
+
+dt {
+    font-weight:bold;
+}
+
+dd {
+    opacity:0.5;
+}
+
+table.info {
+    font-size:1.2em;
+}
+table.info td {
+    padding-left:.666em;
+}
+table.info td:first-child {
+    padding-left:0;
+    text-align:right;
+    vertical-align:center;
+    font-weight:bold;
+}
+
+table.info .schedule {
+    font-size:1.1em;
+    font-family:monospace;
+}
+
+.members {
+    float:right;
+    background-color:#eee;
+    margin-right:1em;
+    padding:1em 2em;
+    border:1px solid #ddd;
+}
+.members p {
+    margin:0;
+    padding:0;
+}
+#oldclasses {
+    float:right;
+    margin-right:1em;
+    padding:1em 2em;
+}
+
+table.student-bichart {
+    border:2px solid black;
+    width:90%;
+    margin:auto;
+}
+
+.jollyroger:before  { content:"â˜  " }
+.jollyroger:after   { content:" â˜ " }
+
+.ficadica {
+    float:right;
+    font-size:1.0em;
+    opacity:0.666;
+    text-align:right;
+    padding:0;
+    margin:0;
+    clear:both;
+}
+
+.janitor {
+    clear:both;
+}
+
+.pastlinks {
+    text-align:right;
+    opacity:0.666;
+    padding:1em;
+    float:right;
+}
+
+.quotes {
+    padding-right:2em;
+    font-style:oblique;
+    font-size:1em;
+    text-align:right;
+    float:right;
+    white-space:pre-wrap;
+    opacity:0.5;
+}
+
+.nobr {
+    white-space:nowrap;
+}
+
+.student-bichart thead {
+    background-color:#ccc;
+}
+.student-bichart td.student {
+    font-weight:normal;
+}
+.student-bichart td {
+    padding:0.2em 0.5em;
+}
+.student-bichart, .student-bichart th, .student-bichart td {
+    border:1px solid #aaa;
+    border-collapse:collapse;
+}
+
+.touched {
+    color:#a07;
+}
+
+hr.unitsep {
+    border:0.5ex dotted #ddd;
+}
+
+#futurelog {
+    margin-bottom:0;
+}
+div.future {
+    margin-right:3px;
+    font-size:0.9em;
+    color:#444;
+    height:28em;
+    overflow-y:scroll;
+    background-color:#fed;
+}
+
+
+#wrapper {
+    margin:0 auto;
+    border:0.2em solid #000;
+    background-color:#fff;
+    color:#000;
+}
+
+#bandana {
+    background-color:#acb;
+    padding:1em;
+    border-bottom:0.2em solid #000;
+}
+
+#bandana h1 {
+    padding:0;
+    margin:0;
+}
+
+#bandana #semester {
+    float:right;
+}
+#bandana #cat {
+    font-weight:normal;
+}
+
+nav {
+    background-color:#fff;
+    text-align:center;
+    font-size:1.3em;
+    background-color:#fee;
+    border-bottom:0.1em solid #c68;
+}
+nav a {
+    color:#c68;
+    padding:0.333ex;
+    cursor:crosshair;
+    text-decoration:none;
+}
+nav a:hover {
+    color:#000;
+}
+
+main {
+    padding: 1em 0em;
+}
+
+main h2 {
+    padding:0.5em 1em;
+    border-bottom:0.2em solid #acb;
+    padding-bottom:0.2em;
+    margin-right:3px;
+}
+
+main p,
+main h3,
+main h4,
+main table,
+main dl {
+    margin-left:1em;
+}
+
+main .alert {
+    color:#f00;
+}
+
+main .misplaced {
+    color:#000;
+    border-right:1ex solid #b28;
+    /* background-color:#fff0f8;
+     */
+}
+main li.only1,
+main li.only2 {
+    color:#604;
+}
+main li.only1::before {
+    color:#b08;
+    content:"â†“ ";
+}
+main li.only2::before {
+    color:#b08;
+    content:"â†‘ ";
+}
+main li.plicker::after {
+    color:#06c;
+    content:" â“…";
+}
+
+main h3.livecoding::after {
+    color:#06c;
+    content:" (LC)";
+}
+
+main li.livecoding {
+    color:#06c;
+}
+
+.help, abbr {
+    border-bottom:1px dotted red;
+    text-decoration:none;
+    cursor:help;
+}
+
+main .bookauthor {
+    font-variant:small-caps;
+    font-size:1.05em;
+}
+
+main .booktitle {
+    font-style:oblique;
+}
+
+main .kra {
+    letter-spacing:0.333em;
+}
+
+main a {
+    color:#075;
+}
+
+main a:hover {
+    color:#d84;
+}
+
+main a.external {
+    cursor:ne-resize;
+    font-weight:normal;
+    border-bottom:1px solid #f80;
+    text-decoration:none;
+}
+main a.download {
+    cursor:s-resize;
+    font-weight:normal;
+    border-bottom:1px solid #f80;
+    text-decoration:none;
+}
+
+main a.external:hover   { color: #f60; border-bottom:1px solid #000; }
+main a.external:before  { content:"" }
+main a.external:after   { content:"" }
+
+main section#info > * {
+    padding-right:1em;
+}
+main section#info {
+    float:left;
+    padding:0;
+    width:50%;
+}
+main section#dynamic {
+    float:left;
+    width:50%;
+    padding:0;
+    margin-left:-3px;
+    border-left:1px solid #ccc;
+}
+
+strong.comb {
+    font-family:sans-serif;
+    font-weight:bold;
+}
+code.lkword {
+    font-family:monospace;
+    text-decoration:underline;
+    font-size:1.2em;
+}
+
+#pezinhos {
+    border-top:0.2em solid #000;
+    background-color:#ccc;
+    padding:1em;
+    text-align:center;
+    clear:both;
+}
+
+#pezinhos .lastupdate {
+    font-family:monospace;
+    font-size:1.3em;
+}
+
+.flushright, .flushleft {
+    padding-right:0;
+    margin-right:0;
+    padding-left:0;
+}
+.flushright {
+    margin-left:10px;
+    float:right;
+}
+.flushleft {
+    margin-right:10px;
+    float:left;
+}
+
+.cancelled {
+    cursor:not-allowed;
+    opacity:0.5;
+    color:#d44;
+}
+
+.broken {
+    cursor:not-allowed;
+    opacity:0.5;
+    text-decoration:line-through;
+}
+
+.invisible {
+    opacity:0;
+    visibility:hidden;
+}
+
+img.framed, img.semiframed { border: 1px solid #000; }
+img.gframed, img.gsemiframed { border: 1px solid #888; }
+img.framed, img.gframed {
+    border-radius: 4px 4px;
+    box-shadow: 3px 3px 3px #888;
+}
+
+
