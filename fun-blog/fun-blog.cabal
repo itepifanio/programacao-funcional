@@ -20,4 +20,5 @@ executable fun-blog
   build-depends:       base >= 4.7 && < 5,
                        scotty,
                        text,
-                       blaze-html
+                       blaze-html,
+                       sqlite-simple

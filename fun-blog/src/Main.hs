@@ -1,22 +1,29 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 import Web.Scotty
-import qualified Data.Text.Lazy as T
-import qualified Text.Blaze.Html5 as H
+import qualified Bootstrap as B
+import Database.SQLite.Simple as Sql
+import Control.Exception (bracket)
+import Data.Text (Text)
 
-data Post = Post 
-    { tipo :: T.Text
-    , titulo :: T.Text
-    , conteudo :: H.Html 
-    }
+testConnect :: IO Sql.Connection
+testConnect = Sql.open "db.sqlite3"
 
-instance Show Post where
-    show post = 
-        T.unpack $ titulo post
+withTestConnection :: (Sql.Connection -> IO a) -> IO a
+withTestConnection cb =
+    withConn $ \conn -> cb conn
+    where
+        withConn = bracket testConnect Sql.close
 
-toPost :: T.Text -> Maybe Post
+main :: IO ()
+main = do
+    withTestConnection $ \conn -> do
+        B.bootstrapDB conn
+        scotty 3000 $ do
+            get "/" $ do
+                        text "OK! :D"
 
-
+{-
 main :: IO ()
 main = do
     putStrLn "Starting Server..."
@@ -24,4 +31,4 @@ main = do
         get "/" $ do
             text "hello world!"
         get "/home" $ file "templates/index.html"
-            
+-}            
