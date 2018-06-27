@@ -21,4 +21,5 @@ executable fun-blog
                        scotty,
                        text,
                        blaze-html,
-                       sqlite-simple
+                       sqlite-simple,
+                       aeson

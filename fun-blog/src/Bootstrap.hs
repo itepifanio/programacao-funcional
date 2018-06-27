@@ -27,5 +27,5 @@ posts = [(1, "homework", "Criar um blog pro meu website", "<h4>Que consiga supor
 populateData :: Sql.Connection -> IO ()
 populateData conn = do
     mapM_ insertPosts posts
-    where 
+    where
         insertPosts ps = Sql.execute conn "insert into posts (id, tipo, conteudo, titulo) values (?,?,?,?)" ps
