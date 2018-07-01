@@ -22,4 +22,6 @@ executable fun-blog
                        text,
                        blaze-html,
                        sqlite-simple,
-                       aeson
+                       aeson,
+                       servant,
+                       servant-server
