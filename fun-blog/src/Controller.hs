@@ -12,6 +12,7 @@ instance FromJSON M.Post
 instance Sql.FromRow M.Post where
     fromRow = M.Post <$> Sql.field <*> Sql.field  <*> Sql.field  <*> Sql.field
 
+allPosts :: Connection -> IO [M.Post]
 allPosts conn = do
     Sql.query_ conn "select id,titulo,conteudo,tipo from posts" :: IO [M.Post]
 

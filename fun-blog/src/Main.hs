@@ -4,11 +4,11 @@ module Main where
 import Web.Scotty
 import Control.Monad.IO.Class  (liftIO)
 import qualified Bootstrap as B
-import qualified Storage as S
 import Controller as C
 import Database.SQLite.Simple as Sql
 -- import Data.Text (Text)
 import Data.Aeson hiding (json)
+import Data.Monoid (mconcat)
 
 main :: IO ()
 main = do
@@ -21,3 +21,7 @@ main = do
         get "/posts" $ do
             posts <- liftIO $ C.allPosts conn
             C.listPosts posts
+        get "/create" $ file "templates/create.html"
+        post "/store" $ do
+            all <- params
+            json all
