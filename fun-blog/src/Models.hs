@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 module Models where
 
+import Data.Text
 import GHC.Generics
 
 data Post = Post
@@ -8,4 +9,4 @@ data Post = Post
     , tipo :: String
     , titulo :: String
     , conteudo :: String
-    } deriving (Show, Generic)
+    } deriving (Show, Generic, Eq)

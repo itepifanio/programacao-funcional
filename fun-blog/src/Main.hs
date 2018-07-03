@@ -9,6 +9,8 @@ import Database.SQLite.Simple as Sql
 -- import Data.Text (Text)
 import Data.Aeson hiding (json)
 import Data.Monoid (mconcat)
+import Data.Either
+import Data.Text
 
 main :: IO ()
 main = do
@@ -20,8 +22,13 @@ main = do
         get "/" $ file "templates/index.html"
         get "/posts" $ do
             posts <- liftIO $ C.allPosts conn
-            C.listPosts posts
+            C.jsonPosts posts
         get "/create" $ file "templates/create.html"
         post "/store" $ do
-            all <- params
-            json all
+            allParams <- params
+            if (isLeft $ C.mkPost (unpack allParams)) == True
+            then do
+                html $ fromLeft $ C.mkPost (unpack allParams)
+            else do
+                C.insertPost $ fromRight $ C.mkPost $ unpack allParams
+                redirect "/"
