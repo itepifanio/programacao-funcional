@@ -25,10 +25,13 @@ main = do
             C.jsonPosts posts
         get "/create" $ file "templates/create.html"
         post "/store" $ do
-            allParams <- params
-            if (isLeft $ C.mkPost (unpack allParams)) == True
+            titulo   <- param "titulo"
+            conteudo <- param "conteudo"
+            tipo     <- param "tipo"
+            let mkPost = C.mkPost titulo conteudo tipo
+            if isLeft mkPost == True
             then do
-                html $ fromLeft $ C.mkPost (unpack allParams)
+                html $ fromLeft (pack "error") (fromStrict mkPost)
             else do
-                C.insertPost $ fromRight $ C.mkPost $ unpack allParams
+                fromRight (pack "error") mkPost
                 redirect "/"

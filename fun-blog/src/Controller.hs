@@ -3,6 +3,7 @@ module Controller where
 
 import Prelude hiding (id)
 import Web.Scotty
+import qualified Data.Text as T
 import Models as M
 import Data.Aeson hiding (json)
 import Database.SQLite.Simple as Sql
@@ -38,7 +39,7 @@ lastId :: Int
 lastId = (id (lastPost !! 0))
 
 -- Recebe o titulo, conteudo e tipo de post e cria um post
-modelPost :: String -> String -> String -> M.Post
+modelPost :: T.Text -> T.Text -> T.Text -> M.Post
 modelPost t c tp =
     M.Post {
     id       = lastId + 1,
@@ -54,10 +55,9 @@ insertPost post = do
     Sql.execute conn "insert into posts (id, tipo, titulo, conteudo) values (?,?,?,?)" (post)
     return post
 
-mkPost :: [String] -> Either String M.Post
-mkPost xs
-    | xs == [[]] = Left "Nenhum dado foi adicionado ao post"
-    | xs !! 0 == [] = Left "Nenhum titulo adicionado ao post"
-    | xs !! 1 == [] = Left "Nenhum conteudo adicionado ao post"
-    | xs !! 2 == [] = Left "Nenhum tipo foi adicionado ao post"
-    | otherwise = Right $ modelPost (xs !! 0 !! 1) (xs !! 0 !! 1) (xs !! 0 !! 1)
+mkPost :: T.Text -> T.Text -> T.Text -> Either T.Text M.Post
+mkPost titulo conteudo tipo
+    | T.null titulo   == False = Left (T.pack "Nenhum titulo adicionado ao post")
+    | T.null conteudo == False = Left (T.pack "Nenhum conteudo adicionado ao post")
+    | T.null tipo     == False = Left (T.pack "Nenhum tipo foi adicionado ao post")
+    | otherwise = Right $ modelPost titulo conteudo tipo

@@ -1,12 +1,12 @@
 {-# LANGUAGE DeriveGeneric #-}
 module Models where
 
-import Data.Text
+import qualified Data.Text as T
 import GHC.Generics
 
 data Post = Post
     { id :: Int
-    , tipo :: String
-    , titulo :: String
-    , conteudo :: String
+    , tipo :: T.Text
+    , titulo :: T.Text
+    , conteudo :: T.Text
     } deriving (Show, Generic, Eq)
