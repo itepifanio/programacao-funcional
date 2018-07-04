@@ -7,9 +7,11 @@ import qualified Bootstrap as B
 import Controller as C
 import Database.SQLite.Simple as Sql
 import Data.Aeson hiding (json)
-import Data.Text
+import Data.Text.Lazy
 import System.IO.Unsafe (unsafePerformIO)
 import Network.Wai.Middleware.Static
+-- import Data.Maybe (isNothing)
+import Data.Either
 
 
 
@@ -30,5 +32,10 @@ main = do
             titulo   <- param "titulo" :: ActionM Text
             conteudo <- param "conteudo" :: ActionM Text
             tipo     <- param "tipo" :: ActionM Text
-            liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
-            redirect "/"
+            handle <- liftIO $ C.mkPost titulo conteudo tipo
+            if isLeft handle == True
+            then do
+                html $ fromLeft "hue" handle
+            else do
+                liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
+                redirect "/"

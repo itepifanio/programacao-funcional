@@ -3,12 +3,12 @@ module Controller where
 
 import Prelude hiding (id)
 import Web.Scotty
-import qualified Data.Text as T
+import qualified Data.Text.Lazy as T
 import Models as M
 import Data.Aeson hiding (json)
 import Database.SQLite.Simple as Sql
-import Control.Monad.IO.Class (liftIO)
-import System.IO.Unsafe (unsafePerformIO)
+
+
 
 instance ToJSON M.Post
 instance FromJSON M.Post
@@ -44,17 +44,17 @@ insertPost post = do
     Sql.execute conn "insert into posts (tipo, titulo, conteudo) values (?,?,?)" (post)
     return post
 
-mkPost :: T.Text -> T.Text -> T.Text -> Maybe M.Post
+{- mkPost :: T.Text -> T.Text -> T.Text -> IO (Maybe M.Post)
 mkPost titulo conteudo tipo
-    | T.null titulo   == False = Nothing
-    | T.null conteudo == False = Nothing
-    | T.null tipo     == False = Nothing
-    | otherwise = Just (modelPost titulo conteudo tipo)
-{-
-mkPost :: T.Text -> T.Text -> T.Text -> Either T.Text M.Post
-mkPost titulo conteudo tipo
-    | T.null titulo   == False = Left (T.pack "Nenhum titulo adicionado ao post")
-    | T.null conteudo == False = Left (T.pack "Nenhum conteudo adicionado ao post")
-    | T.null tipo     == False = Left (T.pack "Nenhum tipo foi adicionado ao post")
-    | otherwise = Right $ modelPost titulo conteudo tipo
+    | T.null titulo   == False = return Nothing
+    | T.null conteudo == False = return Nothing
+    | T.null tipo     == False = return Nothing
+    | otherwise = return $ Just (modelPost titulo conteudo tipo)
 -}
+
+mkPost :: T.Text -> T.Text -> T.Text -> IO (Either T.Text M.Post)
+mkPost titulo conteudo tipo
+    | T.null titulo   == True = return $ Left (T.pack "Nenhum titulo adicionado ao post")
+    | T.null conteudo == True = return $ Left (T.pack "Nenhum conteudo adicionado ao post")
+    | T.null tipo     == True = return $ Left (T.pack "Nenhum tipo foi adicionado ao post")
+    | otherwise = return $ Right $ modelPost titulo conteudo tipo

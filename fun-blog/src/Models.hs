@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 module Models where
 
-import qualified Data.Text as T
+import qualified Data.Text.Lazy as T
 import GHC.Generics
 
 data Post = Post
