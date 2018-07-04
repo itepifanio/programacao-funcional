@@ -30,10 +30,10 @@ main = do
             titulo   <- param "titulo" :: ActionM Text
             conteudo <- param "conteudo" :: ActionM Text
             tipo     <- param "tipo" :: ActionM Text
-            handle <- liftIO $ C.mkPost titulo conteudo tipo
+            handle <- liftIO $ C.mkPost conn titulo conteudo tipo
             if isLeft handle == True
             then do
                 html $ fromLeft "hue" handle
             else do
-                _ <- liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
+                _ <- liftIO $ C.insertPost $ C.modelPost conn tipo titulo conteudo 
                 redirect "/"
