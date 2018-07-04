@@ -5,8 +5,7 @@ import qualified Data.Text as T
 import GHC.Generics
 
 data Post = Post
-    { id :: Int
-    , tipo :: T.Text
+    { tipo :: T.Text
     , titulo :: T.Text
     , conteudo :: T.Text
     } deriving (Show, Generic, Eq)

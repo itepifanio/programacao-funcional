@@ -23,5 +23,4 @@ executable fun-blog
                        blaze-html,
                        sqlite-simple,
                        aeson,
-                       servant,
-                       servant-server
+                       wai-middleware-static
