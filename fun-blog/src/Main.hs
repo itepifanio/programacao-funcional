@@ -11,6 +11,9 @@ import Data.Aeson hiding (json)
 import Data.Monoid (mconcat)
 import Data.Either
 import Data.Text
+import System.IO.Unsafe (unsafePerformIO)
+import Data.Maybe (fromJust)
+
 
 main :: IO ()
 main = do
@@ -25,13 +28,8 @@ main = do
             C.jsonPosts posts
         get "/create" $ file "templates/create.html"
         post "/store" $ do
-            titulo   <- param "titulo"
-            conteudo <- param "conteudo"
-            tipo     <- param "tipo"
-            let mkPost = C.mkPost titulo conteudo tipo
-            if isLeft mkPost == True
-            then do
-                html $ fromLeft (pack "error") (fromStrict mkPost)
-            else do
-                fromRight (pack "error") mkPost
-                redirect "/"
+            titulo   <- param "titulo" :: ActionM Text
+            conteudo <- param "conteudo" :: ActionM Text
+            tipo     <- param "tipo" :: ActionM Text
+            liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
+            redirect "/"

@@ -55,9 +55,17 @@ insertPost post = do
     Sql.execute conn "insert into posts (id, tipo, titulo, conteudo) values (?,?,?,?)" (post)
     return post
 
+mkPost :: T.Text -> T.Text -> T.Text -> Maybe M.Post
+mkPost titulo conteudo tipo
+    | T.null titulo   == False = Nothing
+    | T.null conteudo == False = Nothing
+    | T.null tipo     == False = Nothing
+    | otherwise = Just (modelPost titulo conteudo tipo)
+{-
 mkPost :: T.Text -> T.Text -> T.Text -> Either T.Text M.Post
 mkPost titulo conteudo tipo
     | T.null titulo   == False = Left (T.pack "Nenhum titulo adicionado ao post")
     | T.null conteudo == False = Left (T.pack "Nenhum conteudo adicionado ao post")
     | T.null tipo     == False = Left (T.pack "Nenhum tipo foi adicionado ao post")
     | otherwise = Right $ modelPost titulo conteudo tipo
+-}
