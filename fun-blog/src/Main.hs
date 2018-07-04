@@ -3,12 +3,10 @@ module Main where
 
 import Web.Scotty
 import Control.Monad.IO.Class  (liftIO)
-import qualified Bootstrap as B
+-- import qualified Bootstrap as B
 import Controller as C
 import Database.SQLite.Simple as Sql
-import Data.Aeson hiding (json)
 import Data.Text.Lazy
-import System.IO.Unsafe (unsafePerformIO)
 import Network.Wai.Middleware.Static
 -- import Data.Maybe (isNothing)
 import Data.Either
@@ -37,5 +35,5 @@ main = do
             then do
                 html $ fromLeft "hue" handle
             else do
-                liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
+                _ <- liftIO $ C.insertPost $ C.modelPost titulo conteudo tipo
                 redirect "/"

@@ -2,6 +2,8 @@
 module Models where
 
 import qualified Data.Text.Lazy as T
+import Database.SQLite.Simple as Sql
+import Data.Aeson hiding (json)
 import GHC.Generics
 
 data Post = Post
@@ -9,3 +11,12 @@ data Post = Post
     , titulo :: T.Text
     , conteudo :: T.Text
     } deriving (Show, Generic, Eq)
+
+instance ToJSON Post
+instance FromJSON Post
+
+instance Sql.FromRow Post where
+    fromRow = Post <$> Sql.field  <*> Sql.field  <*> Sql.field
+
+instance ToRow Post where
+    toRow (Post tipo conteudo titulo) = toRow (tipo, conteudo, titulo)

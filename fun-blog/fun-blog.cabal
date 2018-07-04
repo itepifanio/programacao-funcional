@@ -2,7 +2,7 @@ name:                fun-blog
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/fun-blog#readme
+homepage:            https://github.com/itepifanio/programacao-funcional/tree/master/fun-blog
 license:             MIT
 license-file:        LICENSE
 author:              Ítalo Epifânio
@@ -16,11 +16,12 @@ extra-source-files:  README.md
 executable fun-blog
   hs-source-dirs:      src
   main-is:             Main.hs
+  other-modules: Bootstrap, Controller, Models
+  default-extensions: OverloadedStrings
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5,
                        scotty,
                        text,
-                       blaze-html,
                        sqlite-simple,
                        aeson,
                        wai-middleware-static

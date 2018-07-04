@@ -3,9 +3,6 @@
 module Bootstrap where
 
 import Database.SQLite.Simple as Sql
-import Database.SQLite.Simple.Types as SqlTypes
-import qualified Text.Blaze.Html5 as H
-import qualified Data.Text.Lazy as T
 
 bootstrapDB :: Sql.Connection -> IO ()
 bootstrapDB conn = do
