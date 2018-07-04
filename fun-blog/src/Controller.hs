@@ -27,10 +27,10 @@ modelPost t c tp =
 
 -- Insere post no banco de dados
 insertPost :: ToRow b => b -> IO b
-insertPost post' = do
+insertPost post = do
     conn <- Sql.open "db.sqlite3"
-    Sql.execute conn "insert into posts (tipo, titulo, conteudo) values (?,?,?)" (post')
-    return post'
+    Sql.execute conn "insert into posts (tipo, titulo, conteudo) values (?,?,?)" (post)
+    return post
 
 {- mkPost :: T.Text -> T.Text -> T.Text -> IO (Maybe M.Post)
 mkPost titulo conteudo tipo
@@ -41,8 +41,8 @@ mkPost titulo conteudo tipo
 -}
 
 mkPost :: T.Text -> T.Text -> T.Text -> IO (Either T.Text M.Post)
-mkPost title content type
-    | T.null title   == True = return $ Left (T.pack "Nenhum title adicionado ao post")
-    | T.null content == True = return $ Left (T.pack "Nenhum content adicionado ao post")
-    | T.null type     == True = return $ Left (T.pack "Nenhum type foi adicionado ao post")
-    | otherwise = return $ Right $ modelPost title content type
+mkPost titulo conteudo tipo
+    | T.null titulo   == True = return $ Left (T.pack "Nenhum titulo adicionado ao post")
+    | T.null conteudo == True = return $ Left (T.pack "Nenhum conteudo adicionado ao post")
+    | T.null tipo     == True = return $ Left (T.pack "Nenhum tipo foi adicionado ao post")
+    | otherwise = return $ Right $ modelPost titulo conteudo tipo
