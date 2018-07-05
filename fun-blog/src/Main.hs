@@ -21,11 +21,15 @@ main = do
     putStrLn "Starting Server..."
     scotty 3000 $ do
         middleware $ staticPolicy (noDots >-> addBase "templates")
+
         get "/" $ file "templates/index.html"
+
         get "/posts" $ do
             posts <- liftIO $ C.allPosts conn
             C.jsonPosts posts
+
         get "/create" $ file "templates/create.html"
+
         post "/store" $ do
             titulo   <- param "titulo" :: ActionM Text
             conteudo <- param "conteudo" :: ActionM Text
@@ -35,5 +39,26 @@ main = do
             then do
                 html $ fromLeft "hue" handle
             else do
-                _ <- liftIO $ C.insertPost $ C.modelPost conn tipo titulo conteudo 
+                _ <- liftIO $ C.insertPost $ C.modelPost conn tipo titulo conteudo
                 redirect "/"
+
+        get "/destroy/:id" $ do
+            id' <- param "id" :: ActionM Int
+            _ <- liftIO $ C.deletePost conn id'
+            redirect "/"
+
+        get "/jsonEdit/:id" $ do
+            id' <- param "id" :: ActionM Int
+            q <- liftIO $ C.findPost conn id'
+            if q == []
+            then do html $ "Nenhuma postagem encontrada"
+            else do json q
+
+        get "/edit/:id" $ file "templates/edit.html"
+
+        post "/update/:id" $ do
+            id'      <- param "id" :: ActionM Int
+            titulo   <- param "titulo" :: ActionM Text
+            conteudo <- param "conteudo" :: ActionM Text
+            _ <- liftIO $ C.updatePost conn id' titulo conteudo
+            redirect "/"

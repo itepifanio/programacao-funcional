@@ -1,4 +1,4 @@
-body { 
+body {
     background-color:#eee;
     color:#000;
     margin-top:1ex;
@@ -135,6 +135,7 @@ div.future {
     border:0.2em solid #000;
     background-color:#fff;
     color:#000;
+    min-height: 600px;
 }
 
 #bandana {
@@ -348,4 +349,25 @@ img.framed, img.gframed {
     box-shadow: 3px 3px 3px #888;
 }
 
-
+form {
+    margin-left: 60px;
+    margin-top: 60px;
+}
+input[type=text] {
+    width: 40%;
+    padding: 5px 15px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+textarea{
+    width: 40%;
+    padding: 5px 15px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+select{
+    width: 40%;
+    padding: 5px 15px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}

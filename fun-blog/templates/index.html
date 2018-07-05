@@ -81,6 +81,8 @@ Wed Jun 20 22:49:35 -03 2018
             var title = ('<h3>' + post.titulo + '</h3>' +
             '<p>' +
                 post.conteudo +
+                '<a style="margin-left:15px" href="destroy/'+ post.id + '">Remover</a>' +
+                '<a style="margin-left:15px" href="edit/'+ post.id + '">Edit</a>' +
             '</p>'
             );
             if(post.tipo == 'homework'){

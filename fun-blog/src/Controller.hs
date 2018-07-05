@@ -43,6 +43,22 @@ insertPost post = do
     Sql.execute conn "insert into posts (id, tipo, titulo, conteudo) values (?,?,?,?)" (post)
     return post
 
+-- Deleta um post do banco de dados
+deletePost :: Sql.Connection -> Int -> IO ()
+deletePost conn id = Sql.execute conn "delete from posts where id = ?" (Only id)
+
+-- Encontra post através do id
+findPost :: Sql.Connection -> Int -> IO [M.Post]
+findPost conn id = do
+    p <- Sql.queryNamed conn "select * from posts where id = :id" [":id" := id] :: IO [M.Post]
+    return p
+
+
+updatePost :: Sql.Connection -> Int -> T.Text -> T.Text -> IO ()
+updatePost conn id titulo conteudo =
+    Sql.executeNamed conn
+        "update posts set titulo = :titulo, conteudo = :conteudo WHERE id = :id" [":titulo" := titulo, ":conteudo" := conteudo, ":id" := id]
+
 
 {- mkPost :: Sql.Connection -> T.Text -> T.Text -> T.Text -> IO (Maybe M.Post)
 mkPost conn titulo conteudo tipo
