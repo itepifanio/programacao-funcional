@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Programação Funcional, turma de Thanos</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div id='wrapper'>
+        <div id='bandana'>
+            <h1>
+                <span id='semester'>2018.1</span>
+                <span id='subject'>Programação Funcional</span>
+            </h1>
+        </div>
+        <form id="update" method="post">
+            <input type="hidden" name="id" id="idPost">
+            <label><strong>Titulo</strong></label>
+            <br>
+            <input type="text" name="titulo" id="conteudo">
+            <br>
+            <label><strong>Conteúdo</strong></label>
+            <br>
+            <textarea name="conteudo" id="titulo"></textarea>
+            <br>
+            <input type="submit" value="Submeter" id="send">
+        </form>
+
+        <script src="../jquery.js"></script>
+        <script>
+            var baseUrl = (window.location).href; // You can also use document.URL
+            var id = baseUrl.substring(baseUrl.lastIndexOf('/') + 1);
+            console.log(id);
+            $.getJSON('/jsonEdit/' + id, function(post) {
+                $('#idPost').val(id);
+                $('#titulo').val(post[0].titulo);
+                $('#conteudo').val(post[0].conteudo);
+            });
+                $('#send').on('click', function(){
+                    $('#update').get(0).setAttribute('action', '/update/' + id);
+                    $('#update').submit();
+                });
+        </script>
+    </div>
+</body>
+
+</html>
