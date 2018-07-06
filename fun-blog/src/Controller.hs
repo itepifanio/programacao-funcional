@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 module Controller where
 
 import Prelude hiding (id)
@@ -8,6 +9,11 @@ import qualified Data.Text.Lazy as T
 import Models as M
 import Database.SQLite.Simple as Sql
 import System.IO.Unsafe (unsafePerformIO)
+
+type id = Int
+type tipo = T.Text
+type titulo = T.Text
+type conteudo = T.Text
 
 -- Realiza consulta sql e traz os dados
 allPosts :: Sql.Connection -> IO [M.Post]
@@ -27,7 +33,7 @@ lastId :: Sql.Connection -> Int
 lastId conn = (id (lastPost conn !! 0))
 
 -- Recebe o titulo, conteudo e tipo de post e cria um post
-modelPost :: Sql.Connection -> T.Text -> T.Text -> T.Text -> M.Post
+modelPost :: Sql.Connection -> tipo -> titulo -> conteudo -> M.Post
 modelPost conn tp t c =
     M.Post {
     id = (lastId conn) + 1,
@@ -44,17 +50,17 @@ insertPost post = do
     return post
 
 -- Deleta um post do banco de dados
-deletePost :: Sql.Connection -> Int -> IO ()
+deletePost :: Sql.Connection -> id -> IO ()
 deletePost conn id = Sql.execute conn "delete from posts where id = ?" (Only id)
 
 -- Encontra post através do id
-findPost :: Sql.Connection -> Int -> IO [M.Post]
+findPost :: Sql.Connection -> id -> IO [M.Post]
 findPost conn id = do
     p <- Sql.queryNamed conn "select * from posts where id = :id" [":id" := id] :: IO [M.Post]
     return p
 
-
-updatePost :: Sql.Connection -> Int -> T.Text -> T.Text -> IO ()
+-- Recebe os parámetros e realiza a edição dos seus dados
+updatePost :: Sql.Connection -> id -> titulo -> conteudo -> IO ()
 updatePost conn id titulo conteudo =
     Sql.executeNamed conn
         "update posts set titulo = :titulo, conteudo = :conteudo WHERE id = :id" [":titulo" := titulo, ":conteudo" := conteudo, ":id" := id]
@@ -68,7 +74,7 @@ mkPost conn titulo conteudo tipo
     | otherwise = return $ Just (modelPost conn titulo conteudo tipo)
 -}
 
-mkPost :: Sql.Connection -> T.Text -> T.Text -> T.Text -> IO (Either T.Text M.Post)
+mkPost :: Sql.Connection -> tipo -> titulo -> conteudo -> IO (Either T.Text M.Post)
 mkPost conn titulo conteudo tipo
     | T.null titulo   == True = return $ Left (T.pack "Nenhum titulo adicionado ao post")
     | T.null conteudo == True = return $ Left (T.pack "Nenhum conteudo adicionado ao post")
