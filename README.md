@@ -16,3 +16,6 @@ Exercícios resolvidos dos desafios das 99 questões do site oficial da haskell
 ## exercices/~.hs
 Modulos e exercícios desenvolvidos ao longo da disciplina
 
+## Coq/
+Códigos de estudos em Coq. Exercícios voltados a disciplina de Fundamentos Matemáticos para Computação  II.
+
